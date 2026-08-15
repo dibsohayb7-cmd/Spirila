@@ -13,264 +13,100 @@
     --card: #fff;
     --border: #e0e0e0;
     --danger: #dc3545;
+    --success: #28a745;
+    --warning: #f0ad4e;
+    --accent: #2563eb;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--primary); }
+  body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--primary); line-height: 1.6; }
   .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+  /* Header & Nav */
   header { background: var(--card); border-bottom: 1px solid var(--border); padding: 16px 0; position: sticky; top: 0; z-index: 100; }
   .header-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; }
   .logo { font-size: 22px; font-weight: 700; }
   .nav-tabs { display: flex; gap: 8px; }
-  .nav-tab { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; cursor: pointer; font-family: inherit; font-size: 14px; }
+  .nav-tab { padding: 8px 16px; border: 1px solid var(--border); border-radius: 8px; background: transparent; cursor: pointer; font-family: inherit; font-size: 14px; transition: all 0.2s; }
   .nav-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+  .nav-tab:hover:not(.active) { background: var(--bg); }
+
+  /* Pages */
   .page { display: none; }
   .page.active { display: block; }
-  .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500; }
+
+  /* Admin Products */
+  .admin-header { display: flex; justify-content: space-between; align-items: center; margin: 24px 0 16px; }
+  .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500; transition: opacity 0.2s; }
+  .btn:hover { opacity: 0.85; }
   .btn-primary { background: var(--primary); color: #fff; }
   .btn-danger { background: var(--danger); color: #fff; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-warning { background: var(--warning); color: #fff; }
   .btn-sm { padding: 6px 12px; font-size: 13px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
   .form-group { margin-bottom: 12px; }
-  .form-group input { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 14px; }
+  .form-group label { display: block; font-size: 13px; color: var(--secondary); margin-bottom: 4px; }
+  .form-group input, .form-group textarea, .form-group select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;
+    font-family: inherit; font-size: 14px; background: var(--card);
+  }
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    outline: none; border-color: var(--primary);
+  }
+
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: none; align-items: center; justify-content: center; z-index: 200; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: var(--card); border-radius: 12px; padding: 24px; width: 90%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+  .modal h3 { margin-bottom: 16px; font-size: 18px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px; }
+
+  /* Tables */
+  .table-wrap { background: var(--card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { padding: 12px 16px; text-align: right; border-bottom: 1px solid var(--border); }
+  th { background: var(--bg); font-weight: 500; color: var(--secondary); font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(0,0,0,0.02); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 500; }
+  .badge-new { background: #dbeafe; color: #1e40af; }
+  .badge-processing { background: #fef3c7; color: #92400e; }
+  .badge-done { background: #d1fae5; color: #065f46; }
+
+  /* Store */
   .store-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
-  .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
-  .product-img { width: 100%; height: 140px; border-radius: 8px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .product-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px; transition: box-shadow 0.2s; }
+  .product-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+  .product-img { width: 100%; height: 140px; border-radius: 8px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 48px; overflow: hidden; }
+  .product-img img { width: 100%; height: 100%; object-fit: cover; }
   .product-name { font-size: 15px; font-weight: 500; }
+  .product-desc { font-size: 13px; color: var(--secondary); line-height: 1.4; }
   .product-price { font-size: 18px; font-weight: 700; color: var(--primary); }
-  .add-cart-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; background: var(--primary); color: #fff; cursor: pointer; }
-  .login-box { max-width: 400px; margin: 40px auto; padding: 24px; background: var(--card); border-radius: 12px; border: 1px solid var(--border); text-align: center; }
-</style>
-</head>
-<body>
+  .product-stock { font-size: 12px; color: var(--secondary); }
+  .qty-row { display: flex; align-items: center; gap: 8px; }
+  .qty-btn { width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 6px; background: transparent; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+  .qty-btn:hover { background: var(--bg); }
+  .qty-val { font-size: 14px; font-weight: 500; min-width: 24px; text-align: center; }
+  .add-cart-btn { width: 100%; padding: 10px; border: none; border-radius: 8px; background: var(--primary); color: #fff; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; margin-top: 4px; }
+  .add-cart-btn:hover { opacity: 0.85; }
+  .add-cart-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-<header>
-  <div class="header-inner">
-    <div class="logo">📚 متجر الأدوات المدرسية</div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" onclick="switchTab('store')">🛒 المتجر</button>
-      <button class="nav-tab" onclick="switchTab('admin')">⚙️ الإدارة</button>
-    </div>
-  </div>
-</header>
+  /* Cart */
+  .cart-section { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+  .cart-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .cart-item:last-child { border-bottom: none; }
+  .cart-item-info { display: flex; align-items: center; gap: 12px; }
+  .cart-item-img { width: 48px; height: 48px; border-radius: 8px; background: var(--bg); display: flex; align-items: center; justify-content: center; font-size: 24px; overflow: hidden; }
+  .cart-item-img img { width: 100%; height: 100%; object-fit: cover; }
+  .cart-item-name { font-weight: 500; }
+  .cart-item-qty { font-size: 13px; color: var(--secondary); }
+  .cart-item-price { font-weight: 500; }
+  .cart-total { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--border); font-size: 18px; font-weight: 700; }
 
-<div class="container">
-  <div id="store-page" class="page active">
-    <h2>المنتجات المتاحة</h2>
-    <div class="store-grid">
-      <div class="product-card">
-        <div class="product-img">📓</div>
-        <div class="product-name">دفتر 96 صفحة</div>
-        <div class="product-price">120 د.ج</div>
-        <button class="add-cart-btn">أضف للسلة</button>
-      </div>
-      <div class="product-card">
-        <div class="product-img">✒️</div>
-        <div class="product-name">قلم حبر أزرق</div>
-        <div class="product-price">35 د.ج</div>
-        <button class="add-cart-btn">أضف للسلة</button>
-      </div>
-    </div>
-  </div>
+  /* Checkout */
+  .checkout-form { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .checkout-form h3 { margin-bottom: 16px; }
 
-  <div id="admin-page" class="page">
-    <div id="admin-login" class="login-box">
-      <h3 style="margin-bottom: 12px;">قفل لوحة الإدارة 🔒</h3>
-      <p style="font-size: 14px; color: var(--secondary); margin-bottom: 16px;">أدخل كلمة السر للوصول للتحكم:</p>
-      <div class="form-group">
-        <input type="password" id="admin-pass-input" placeholder="كلمة السر...">
-      </div>
-      <button class="btn btn-primary" style="width: 100%;" onclick="checkAdminPassword()">دخول</button>
-      <p id="login-error" style="color: var(--danger); font-size: 13px; margin-top: 8px; display: none;">كلمة السر خاطئة!</p>
-    </div>
-
-    <div id="admin-content" style="display: none;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-        <h2>لوحة التحكم بالمنتجات</h2>
-        <button class="btn btn-danger btn-sm" onclick="logoutAdmin()">تسجيل الخروج</button>
-      </div>
-      <p>أهلاً بك في لوحة الإدارة المحمية!</p>
-    </div>
-  </div>
-</div>
-
-<script>
-  const ADMIN_PASSWORD = "DIB20091026"; 
-
-  function switchTab(tab) {
-    document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-
-    if (tab === 'store') {
-      document.querySelectorAll('.nav-tab')[0].classList.add('active');
-      document.getElementById('store-page').classList.add('active');
-    } else if (tab === 'admin') {
-      document.querySelectorAll('.nav-tab')[1].classList.add('active');
-      document.getElementById('admin-page').classList.add('active');
-    }
-  }
-
-  function checkAdminPassword() {
-    const input = document.getElementById('admin-pass-input').value;
-    const errorMsg = document.getElementById('login-error');
-
-    if (input === ADMIN_PASSWORD) {
-      document.getElementById('admin-login').style.display = 'none';
-      document.getElementById('admin-content').style.display = 'block';
-      errorMsg.style.display = 'none';
-      document.getElementById('admin-pass-input').value = '';
-    } else {
-      errorMsg.style.display = 'block';
-    }
-  }
-
-  function logoutAdmin() {
-    document.getElementById('admin-login').style.display = 'block';
-    document.getElementById('admin-content').style.display = 'none';
-  }
-</script>
-
-</body>
-</html>
-
-<!--    
-// ========== ADMIN ==========
-function renderAdmin() {
-  // Stats
-  document.getElementById('statProducts').textContent = products.length;
-  document.getElementById('statOrders').textContent = orders.length;
-  document.getElementById('statNew').textContent = orders.filter(o => o.status === 'new').length;
-  document.getElementById('statRevenue').textContent = orders.filter(o => o.status === 'done').reduce((s, o) => s + o.total, 0).toLocaleString('ar-DZ');
-
-  // Products table
-  const pt = document.getElementById('productsTable');
-  if (products.length === 0) {
-    pt.innerHTML = '<tr><td colspan="5" class="empty-state" style="padding:24px;">لا توجد منتجات</td></tr>';
-  } else {
-    pt.innerHTML = products.map((p, i) => `
-      <tr>
-        <td>${i + 1}</td>
-        <td><strong>${p.name}</strong><br><small style="color:var(--secondary)">${p.desc || ''}</small></td>
-        <td>${p.price} د.ج</td>
-        <td>${p.stock}</td>
-        <td>
-          <button class="btn btn-sm" style="background:var(--bg);" onclick="editProduct(${p.id})">✏️</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">🗑️</button>
-        </td>
-      </tr>
-    `).join('');
-  }
-
-  // Orders table
-  const ot = document.getElementById('ordersTable');
-  if (orders.length === 0) {
-    ot.innerHTML = '<tr><td colspan="8" class="empty-state" style="padding:24px;">لا توجد طلبات</td></tr>';
-  } else {
-    ot.innerHTML = orders.map((o, i) => {
-      const statusBadge = o.status === 'new' ? '<span class="badge badge-new">جديد</span>' :
-                          o.status === 'processing' ? '<span class="badge badge-processing">قيد المعالجة</span>' :
-                          '<span class="badge badge-done">مكتمل</span>';
-      const itemsText = o.items.map(it => `${it.name} ×${it.qty}`).join(', ');
-      const actionBtn = o.status === 'new' 
-        ? `<button class="btn btn-warning btn-sm" onclick="updateOrderStatus(${o.id}, 'processing')">بدء المعالجة</button>`
-        : o.status === 'processing'
-        ? `<button class="btn btn-success btn-sm" onclick="updateOrderStatus(${o.id}, 'done')">تأكيد التسليم</button>`
-        : `<button class="btn btn-sm" style="background:var(--bg);" disabled>✅ تم</button>`;
-      return `
-        <tr>
-          <td>#${o.id.toString().slice(-4)}</td>
-          <td>${o.name}</td>
-          <td>${o.phone}</td>
-          <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${itemsText}">${itemsText}</td>
-          <td><strong>${o.total.toLocaleString('ar-DZ')} د.ج</strong></td>
-          <td>${statusBadge}</td>
-          <td style="font-size:12px;color:var(--secondary);white-space:nowrap;">${o.date}</td>
-          <td>${actionBtn}</td>
-        </tr>
-      `;
-    }).join('');
-  }
-}
-
-// ========== PRODUCT CRUD ==========
-function openProductModal(id) {
-  document.getElementById('productModal').classList.add('show');
-  if (id) {
-    const p = products.find(x => x.id === id);
-    document.getElementById('modalTitle').textContent = '✏️ تعديل منتج';
-    document.getElementById('editProductId').value = id;
-    document.getElementById('prodName').value = p.name;
-    document.getElementById('prodPrice').value = p.price;
-    document.getElementById('prodStock').value = p.stock;
-    document.getElementById('prodIcon').value = p.icon || '📦';
-    document.getElementById('prodDesc').value = p.desc || '';
-    document.getElementById('prodImage').value = p.image || '';
-  } else {
-    document.getElementById('modalTitle').textContent = '➕ إضافة منتج جديد';
-    document.getElementById('editProductId').value = '';
-    document.getElementById('prodName').value = '';
-    document.getElementById('prodPrice').value = '';
-    document.getElementById('prodStock').value = '50';
-    document.getElementById('prodIcon').value = '📦';
-    document.getElementById('prodDesc').value = '';
-    document.getElementById('prodImage').value = '';
-  }
-}
-
-function closeProductModal() {
-  document.getElementById('productModal').classList.remove('show');
-}
-
-function saveProduct() {
-  const id = document.getElementById('editProductId').value;
-  const name = document.getElementById('prodName').value.trim();
-  const price = parseFloat(document.getElementById('prodPrice').value);
-  const stock = parseInt(document.getElementById('prodStock').value) || 0;
-  const icon = document.getElementById('prodIcon').value.trim() || '📦';
-  const desc = document.getElementById('prodDesc').value.trim();
-  const image = document.getElementById('prodImage').value.trim();
-
-  if (!name) { showToast('أدخل اسم المنتج'); return; }
-  if (!price || price <= 0) { showToast('أدخل سعر صحيح'); return; }
-
-  if (id) {
-    const p = products.find(x => x.id == id);
-    p.name = name; p.price = price; p.stock = stock; p.icon = icon; p.desc = desc; p.image = image;
-    showToast('✅ تم التعديل');
-  } else {
-    products.push({ id: Date.now(), name, price, stock, icon, desc, image });
-    showToast('✅ تمت الإضافة');
-  }
-  saveData();
-  closeProductModal();
-  renderAdmin();
-  renderStore();
-}
-
-function editProduct(id) { openProductModal(id); }
-
-function deleteProduct(id) {
-  if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
-  products = products.filter(p => p.id !== id);
-  saveData();
-  renderAdmin();
-  renderStore();
-  showToast('🗑️ تم الحذف');
-}
-
-function updateOrderStatus(id, status) {
-  const o = orders.find(x => x.id === id);
-  if (o) { o.status = status; saveData(); renderAdmin(); showToast('📋 تم تحديث الحالة'); }
-}
-
-// ========== UTILS ==========
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// Init
-renderStore();
-</script>
-</body>
-</html>
+  /* Stats */
+  .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin: 24px 0; }
+  .stat-card { background: v
